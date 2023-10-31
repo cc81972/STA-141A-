@@ -1,0 +1,90 @@
+---
+title: 'STA 141A Fall 2023: Homework 3'
+author: ''
+date: ""
+output:
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+Work on this assignment either as [R Markdown](https://rmarkdown.rstudio.com) document or [Jupyter](https://jupyter.org/) notebook. The assignment has to be submitted electronically on Gradescope by November 3, 2023 at 11:59 PM (PT) by uploading only the **PDF** file.
+
+Late homework submissions will **NOT** be accepted. No submissions will be accepted by email.
+
+Each answer has to be based on `R` code that shows how the result was obtained. `R` code has to answer the question or solve the task. For example, if you are asked to find the largest entry of a vector, `R` code has to return the largest element of the vector. If `R` code just prints all values of the vector and you determine by hand which element is the largest, this will not be accepted as an answer. No points will be given for answers that are not based on `R` code. 
+
+There are many possible ways to write `R` code that is needed to answer the questions or do the tasks, but for some of the questions or tasks you might have to use something that has not been discussed during the lectures or the discussion sessions. You will have to come up with a solution on your own. Hints will be provided if extra packages can help, but **NO** other packages than those explicitly allowed can be used. This is a very important part of learning (if not the most important part of learning). Try to understand what you need to do to complete the task or answer the question and feel free to search the Internet for possible solutions and discuss possible solutions with other students. It is perfectly fine to ask what kind of an approach or a function other students use. However, you are not allowed to share your code or your answers with other students. Everyone has to write the code, do the tasks and answer the questions on their own. To put it simply, sharing ideas is fine, plagiarizing is not.
+
+The total number of points of this assignment is 30.
+
+Good luck!
+
+For these problems, it is important to use `ggplot` for plotting. Do not use any other plotting techniques.
+
+# 1. Examining the distribution of the data
+
+Go to [UCI Machine learning
+repository](https://archive.ics.uci.edu/ml/datasets/Wine+Quality) and
+download the data on the white wine quality. This page contains also the
+background information on the data. In our analysis we will only
+consider the following variables:\
+`pH`: pH level\
+`quality`: Wine quality in a score between 0 and 10\
+
+a)  Read the data into R. Add to the data frame a new binary variable
+    good which is 1 if quality \> 5 and 0 otherwise (1 point).
+
+Below, consider the `pH` value for good, bad and all wines separately
+and put all three graphics in each exercise in one plot.
+
+b)  Calculate the summary statistics for `pH` for good, bad and all
+    wines separately, that is: mean, median, standard deviation,
+    interquartile range, minimum and maximum of both samples. Display
+    the results in a table and comment on the differences between both
+    groups, if any (1 point).
+    
+
+c)  Plot a histogram of `pH` for good, bad and all wines and add to the
+    plots a normal density, estimating the parameters from the data.
+    Produce same histograms with corresponding normal densities for good
+    and bad wines separately. Do you observe any differences in the
+    distributions? (2 point).
+
+
+d)  Generate QQ-plots with `ggplot` of `pH` for good, bad and all wines
+    to compare empirical quantiles of the samples to the theoretical
+    quantiles of a normal distribution. Add a angle bisector line to the
+    plot. Do you think all samples follow a normal distribution? (1
+    points).
+
+
+# 2. Inverse Transform Sampling
+
+In this exercise, we will generate pseudo-random numbers using [_inverse transform sampling_](https://en.wikipedia.org/wiki/Inverse_transform_sampling). Let $P$ be a probability distribution with corresponding c.d.f. $F$. For $U\sim Unif(0,1)$, it holds that $F^{-1}(U)\sim P$, if $F^{-1}$ exists. 
+
+Full marks are earned for using `DataFrame`/ `tibble` only, manipulated via `dplyr`, no vectors or matrices. Make sure that the generated plots are tidy. The theoretical densities should be named in the legend. _Optional: Using the package `latex2exp`, we can generate \LaTeX code:_
+```{r, eval = F}
+library("latex2exp")
+library("ggplot2")
+ggplot() + labs(title = TeX("$\\chi^2_k$"))
+```
+
+
+
+
+a) Generate $n=200$ standard normal distributed random variables using inverse transform sampling (_Hint: Use `qnorm` for the inverse of the Gaussian c.d.f._). Produce a  histogram with relative frequencies for the generated values. Add the theoretical density of a standard normal distribution to the histogram in red. Make sure to set `set.seed(2023)`. (5 points)
+
+
+b)  Next, generate $n=200$ random variables that are $\chi^2_4$-distributed, using inverse transform sampling via the standard normal distribution from a), __not__ via the inverse of the c.d.f. of the $\chi^2_4$ distribution. To this end, recall that for $Z_i\overset{iid.}{\sim}N(0,1)$, 
+$$Q = \sum_{i=1}^k Z_i^2 \sim \chi_k^2.$$
+Produce a  histogram with relative frequencies for the generated values. Add the corresponding theoretical density to the histogram in red. (5 point)
+
+_Hint: You might find `group_by` to be helpful. _
+
+a)  Use a) and b) to draw from the $t_4$-distribution. To this end, recall that for $Z\sim N(0,1), Q\sim\chi^2_k$, 
+$$\frac{Z}{\sqrt{Q/k}}\sim t_k.$$
+Produce a  histogram with relative frequencies for the generated values. Add the corresponding theoretical density to the histogram in red. (5 point)
+
+_Hint: You might find `pivot_longer` to be helpful._ 
